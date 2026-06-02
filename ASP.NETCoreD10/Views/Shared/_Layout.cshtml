@@ -27,10 +27,44 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User.Identity!.IsAuthenticated == false)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Profile">
+                                    Welcome <strong>@User.Identity.Name</strong>
+                                </a>
+                            </li>
+                        }
+                    </ul>
                 </div>
             </div>
         </nav>
     </header>
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="alert alert-info">
+            You are an administrator.
+        </div>
+    }
+    @if (User.IsInRole("User"))
+    {
+        <div class="alert alert-info">
+            You are a regular user.
+        </div>
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
